@@ -1,7 +1,7 @@
 import { StrapiApiResponse, StrapiCatalogItem, Product } from '../types/catalog';
 
-const API_BASE_URL = 'https://strapi.argfhrz.site/api';
-const BEARER_TOKEN = 'cc1f4e8ce9ff45412675214e50569b252ee1932dbefdba16bc395805010c0ae4ab81353eacd899d9dfe9cb55e7cbaf8b59e9e2860cf599a992f92c2400e7023ca10feb76ca5f2d55dfa9ddb582a47851de39bca33e0e958ba8027178662cadc336c979c773bc6bc6480c4b76bde93593915e5fcf2471e62503ad721c568d04d2';
+const API_BASE_URL = 'https://strapi.jailbreak.pro/api';
+const BEARER_TOKEN = '7fc618c6cdcef286f3727b036756f2eafd741ff4ff394af7f1481fd09901bd676422b596164d083b55292d19d0dcc3f2be872bef4af1a6eb8ee25bad6f6ac580a414abb31e1cb1919f3677d91dfd01ac658846be8bd56ad0cb3d3b4b7de3e48db86d488787a6be2e5308e7f3789c192dc8441401516e8d63cb3d5142923d143b';
 
 export interface FetchCatalogsParams {
   page?: number;

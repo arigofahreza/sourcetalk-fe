@@ -1,7 +1,7 @@
 import { WebhookResponse } from '../types/chat';
 
 export class ChatService {
-  private static WEBHOOK_URL = 'https://n8n-web.argfhrz.site/webhook/81fa7810-4ed8-4ead-8b27-61a6e16d4a72';
+  private static WEBHOOK_URL = 'https://n8n-web.jailbreak.pro/webhook/81fa7810-4ed8-4ead-8b27-61a6e16d4a72';
 
   static async sendMessage(message: string): Promise<WebhookResponse> {
     try {
