@@ -27,7 +27,7 @@ export default function LoginPage({ onLogin, isLoading = false, error }: LoginPa
           <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-4">
             <span className="text-white text-2xl font-bold">SS</span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Welcome to SourceStock</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Welcome to SourceTalk</h1>
           <p className="text-gray-600">Please sign in to continue</p>
         </div>
 
