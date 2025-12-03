@@ -16,6 +16,7 @@ export default function SuppliersPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedKelompok, setSelectedKelompok] = useState<string>('');
   const [showFilters, setShowFilters] = useState(false);
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pagination, setPagination] = useState<StrapiPagination>({
@@ -103,23 +104,23 @@ export default function SuppliersPage() {
       
       {/* Detail Modal */}
       {selectedSupplier && (
-        <div className="fixed inset-0 bg-black/20 bg-opacity-50 z-50 flex items-center justify-center p-4" onClick={() => setSelectedSupplier(null)}>
-          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-gray-900">Supplier Details</h2>
+        <div className="fixed inset-0 bg-black/20 bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4" onClick={() => setSelectedSupplier(null)}>
+          <div className="bg-white rounded-lg w-full sm:max-w-2xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="sticky top-0 bg-white border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Supplier Details</h2>
               <button
                 onClick={() => setSelectedSupplier(null)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 hover:text-gray-600 p-1"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
             
-            <div className="p-6">
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="col-span-2">
+            <div className="p-4 sm:p-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
+                <div className="col-span-1 sm:col-span-2">
                   <div className="aspect-video bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg overflow-hidden">
                     <img 
                       src={`https://picsum.photos/seed/${100 + (parseInt(selectedSupplier.id) % 100 + 1)}/800/400`}
@@ -130,83 +131,83 @@ export default function SuppliersPage() {
                 </div>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{selectedSupplier.namaSupplier}</h3>
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">{selectedSupplier.namaSupplier}</h3>
                   {selectedSupplier.kode !== 'N/A' && (
-                    <div className="inline-block bg-purple-100 text-purple-700 text-sm font-medium px-3 py-1 rounded-full">
+                    <div className="inline-block bg-purple-100 text-purple-700 text-xs sm:text-sm font-medium px-2.5 sm:px-3 py-1 rounded-full">
                       {selectedSupplier.kode}
                     </div>
                   )}
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <div className="text-sm text-gray-500 mb-1">Kelompok</div>
-                    <div className="font-medium text-gray-900">{selectedSupplier.kelompok}</div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
+                  <div className="bg-gray-50 p-3 sm:p-4 rounded-lg">
+                    <div className="text-xs sm:text-sm text-gray-500 mb-1">Kelompok</div>
+                    <div className="text-sm sm:text-base font-medium text-gray-900">{selectedSupplier.kelompok}</div>
                   </div>
                   {selectedSupplier.pic !== 'N/A' && (
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <div className="text-sm text-gray-500 mb-1">PIC</div>
-                      <div className="font-medium text-gray-900">{selectedSupplier.pic}</div>
+                    <div className="bg-gray-50 p-3 sm:p-4 rounded-lg">
+                      <div className="text-xs sm:text-sm text-gray-500 mb-1">PIC</div>
+                      <div className="text-sm sm:text-base font-medium text-gray-900">{selectedSupplier.pic}</div>
                     </div>
                   )}
                 </div>
 
-                <div className="border-t border-gray-200 pt-4">
-                  <h4 className="font-semibold text-gray-900 mb-3">Contact Information</h4>
-                  <div className="space-y-3">
+                <div className="border-t border-gray-200 pt-3 sm:pt-4">
+                  <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3">Contact Information</h4>
+                  <div className="space-y-2 sm:space-y-3">
                     {selectedSupplier.nomorTelepon !== 'N/A' && (
-                      <div className="flex items-start gap-3">
-                        <svg className="w-5 h-5 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="flex items-start gap-2 sm:gap-3">
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                         </svg>
-                        <div>
-                          <div className="text-sm text-gray-500">Phone</div>
-                          <div className="font-medium text-gray-900">{selectedSupplier.nomorTelepon}</div>
+                        <div className="flex-1 min-w-0">
+                          <div className="text-xs sm:text-sm text-gray-500">Phone</div>
+                          <div className="text-sm sm:text-base font-medium text-gray-900 break-all">{selectedSupplier.nomorTelepon}</div>
                         </div>
                       </div>
                     )}
                     {selectedSupplier.hp !== 'N/A' && (
-                      <div className="flex items-start gap-3">
-                        <svg className="w-5 h-5 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="flex items-start gap-2 sm:gap-3">
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
                         </svg>
-                        <div>
-                          <div className="text-sm text-gray-500">Mobile</div>
-                          <div className="font-medium text-gray-900">{selectedSupplier.hp}</div>
+                        <div className="flex-1 min-w-0">
+                          <div className="text-xs sm:text-sm text-gray-500">Mobile</div>
+                          <div className="text-sm sm:text-base font-medium text-gray-900 break-all">{selectedSupplier.hp}</div>
                         </div>
                       </div>
                     )}
                     {selectedSupplier.email !== 'N/A' && (
-                      <div className="flex items-start gap-3">
-                        <svg className="w-5 h-5 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="flex items-start gap-2 sm:gap-3">
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
-                        <div>
-                          <div className="text-sm text-gray-500">Email</div>
-                          <div className="font-medium text-gray-900">{selectedSupplier.email}</div>
+                        <div className="flex-1 min-w-0">
+                          <div className="text-xs sm:text-sm text-gray-500">Email</div>
+                          <div className="text-sm sm:text-base font-medium text-gray-900 break-all">{selectedSupplier.email}</div>
                         </div>
                       </div>
                     )}
                     {selectedSupplier.alamat !== 'N/A' && (
-                      <div className="flex items-start gap-3">
-                        <svg className="w-5 h-5 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="flex items-start gap-2 sm:gap-3">
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
-                        <div>
-                          <div className="text-sm text-gray-500">Address</div>
-                          <div className="font-medium text-gray-900">{selectedSupplier.alamat}</div>
+                        <div className="flex-1 min-w-0">
+                          <div className="text-xs sm:text-sm text-gray-500">Address</div>
+                          <div className="text-sm sm:text-base font-medium text-gray-900">{selectedSupplier.alamat}</div>
                         </div>
                       </div>
                     )}
                   </div>
                 </div>
 
-                <div className="bg-purple-50 p-4 rounded-lg">
-                  <div className="text-sm text-gray-600 mb-1">Last Updated</div>
-                  <div className="font-medium text-gray-900">
+                <div className="bg-purple-50 p-3 sm:p-4 rounded-lg">
+                  <div className="text-xs sm:text-sm text-gray-600 mb-1">Last Updated</div>
+                  <div className="text-sm sm:text-base font-medium text-gray-900">
                     {new Date(selectedSupplier.tanggalUpdate).toLocaleDateString('id-ID', {
                       weekday: 'long',
                       year: 'numeric',
@@ -221,17 +222,28 @@ export default function SuppliersPage() {
         </div>
       )}
       
-      <div className="max-w-7xl mx-auto p-6">
+      <div className="max-w-7xl mx-auto p-4 md:p-6">
         {/* Breadcrumb */}
-        <nav className="flex items-center text-sm text-gray-600 mb-6">
+        <nav className="flex items-center text-sm text-gray-600 mb-4 md:mb-6">
           <a href="/" className="hover:text-gray-900">Home</a>
           <span className="mx-2">/</span>
           <span className="text-gray-900 font-medium">Suppliers</span>
         </nav>
 
+        {/* Mobile Filter Button */}
+        <button
+          onClick={() => setShowMobileFilters(!showMobileFilters)}
+          className="md:hidden w-full mb-4 flex items-center justify-center gap-2 px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+          </svg>
+          {showMobileFilters ? 'Hide Filters' : 'Show Filters'}
+        </button>
+
         <div className="flex gap-6">
-          {/* Left Sidebar Filters */}
-          <aside className="w-64 flex-shrink-0">
+          {/* Left Sidebar Filters - Desktop */}
+          <aside className="hidden md:block w-64 flex-shrink-0">
             <div className="bg-white rounded-lg p-4 border border-gray-200 shadow-sm sticky top-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-semibold text-gray-900">Filters</h3>
@@ -279,18 +291,87 @@ export default function SuppliersPage() {
             </div>
           </aside>
 
+          {/* Mobile Filter Drawer */}
+          {showMobileFilters && (
+            <div className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setShowMobileFilters(false)}>
+              <div className="bg-white w-full max-w-sm h-full overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+                <div className="sticky top-0 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
+                  <h3 className="font-semibold text-gray-900">Filters</h3>
+                  <button
+                    onClick={() => setShowMobileFilters(false)}
+                    className="text-gray-400 hover:text-gray-600"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+                
+                <div className="p-4 space-y-4">
+                  {/* Search */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Search</label>
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Search suppliers..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+
+                  {/* Kelompok Filter */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Kelompok</label>
+                    <select
+                      value={selectedKelompok}
+                      onChange={(e) => setSelectedKelompok(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    >
+                      <option value="">All Kelompok</option>
+                      <option value="Pondasi">Pondasi</option>
+                      <option value="Struktur">Struktur</option>
+                      <option value="Arsitektur">Arsitektur</option>
+                      <option value="Mekanikal">Mekanikal</option>
+                      <option value="Elektrikal">Elektrikal</option>
+                    </select>
+                  </div>
+
+                  {/* Clear and Apply Buttons */}
+                  <div className="flex gap-2 pt-4">
+                    <button
+                      onClick={() => {
+                        setSearchQuery('');
+                        setSelectedKelompok('');
+                      }}
+                      className="flex-1 px-4 py-2 text-sm text-gray-600 hover:text-gray-900 border border-gray-300 rounded-md hover:bg-gray-50"
+                    >
+                      Clear All
+                    </button>
+                    <button
+                      onClick={() => setShowMobileFilters(false)}
+                      className="flex-1 px-4 py-2 text-sm text-white bg-purple-600 rounded-md hover:bg-purple-700"
+                    >
+                      Apply Filters
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Main Content */}
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             {/* Header */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
               <div className="flex items-center gap-3">
-                <h1 className="text-2xl font-semibold text-gray-900">Suppliers</h1>
+                <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Suppliers</h1>
                 <span className="bg-purple-100 text-purple-800 text-sm font-medium px-2.5 py-0.5 rounded-full">
                   {pagination.total}
                 </span>
               </div>
 
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 sm:gap-4">
                 {/* View mode toggle */}
                 <div className="flex items-center bg-gray-100 rounded-lg p-1">
                   <button
@@ -357,7 +438,7 @@ export default function SuppliersPage() {
             {/* Suppliers Grid */}
             <div className={`grid gap-4 mb-6 ${
               viewMode === 'grid' 
-                ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' 
+                ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3' 
                 : 'grid-cols-1'
             }`}>
               {suppliers.map((supplier) => (
@@ -383,17 +464,18 @@ export default function SuppliersPage() {
             {/* Pagination */}
             {!loading && suppliers.length > 0 && (
               <div className="flex flex-col items-center gap-4 mt-8">
-                <div className="text-sm text-gray-600">
+                <div className="text-xs sm:text-sm text-gray-600 text-center">
                   Showing {(pagination.page - 1) * pagination.pageSize + 1} to {Math.min(pagination.page * pagination.pageSize, pagination.total)} of {pagination.total} results
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 sm:gap-2 flex-wrap justify-center">
                   <button
                     onClick={() => handlePageChange(pagination.page - 1)}
                     disabled={pagination.page === 1 || loading}
-                    className="px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-2 sm:px-3 py-2 text-xs sm:text-sm border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Previous
+                    <span className="hidden sm:inline">Previous</span>
+                    <span className="sm:hidden">Prev</span>
                   </button>
 
                   <div className="flex items-center gap-1">
@@ -406,12 +488,12 @@ export default function SuppliersPage() {
                       .map((page, index, array) => (
                         <div key={page}>
                           {index > 0 && array[index - 1] !== page - 1 && (
-                            <span className="px-3 py-2 text-sm text-gray-500">...</span>
+                            <span className="px-2 py-2 text-xs sm:text-sm text-gray-500">...</span>
                           )}
                           <button
                             onClick={() => handlePageChange(page)}
                             disabled={loading}
-                            className={`px-3 py-2 text-sm border rounded-md ${
+                            className={`px-2 sm:px-3 py-2 text-xs sm:text-sm border rounded-md ${
                               page === pagination.page
                                 ? 'bg-purple-600 text-white border-purple-600'
                                 : 'border-gray-300 hover:bg-gray-50 disabled:opacity-50'
@@ -426,7 +508,7 @@ export default function SuppliersPage() {
                   <button
                     onClick={() => handlePageChange(pagination.page + 1)}
                     disabled={pagination.page === pagination.pageCount || loading}
-                    className="px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-2 sm:px-3 py-2 text-xs sm:text-sm border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Next
                   </button>
