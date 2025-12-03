@@ -50,47 +50,47 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <Headers />
       
-      <div className="max-w-7xl mx-auto px-6 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         {/* Hero Section */}
-        <div className="text-center mb-16">
-          <div className="flex justify-center mb-6">
-            <div className="w-20 h-20 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-xl">
-              <span className="text-white text-3xl font-bold">SS</span>
+        <div className="text-center mb-12 sm:mb-16">
+          <div className="flex justify-center mb-4 sm:mb-6">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-xl">
+              <span className="text-white text-2xl sm:text-3xl font-bold">SS</span>
             </div>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-3 sm:mb-4 px-4">
             Welcome to SourceTalk
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto px-4">
             Your complete solution for managing materials, suppliers, and getting AI-powered assistance
           </p>
         </div>
 
         {/* Menu Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
           {menuItems.map((item) => (
             <Link key={item.href} href={item.href}>
-              <div className={`bg-gradient-to-br ${item.bgColor} rounded-2xl p-8 border-2 border-transparent hover:border-gray-300 transition-all duration-300 ${item.hoverColor} cursor-pointer group h-full`}>
+              <div className={`bg-gradient-to-br ${item.bgColor} rounded-2xl p-6 sm:p-8 border-2 border-transparent hover:border-gray-300 transition-all duration-300 ${item.hoverColor} cursor-pointer group h-full`}>
                 <div className="flex flex-col items-center text-center h-full">
                   {/* Icon */}
-                  <div className={`text-transparent bg-clip-text bg-gradient-to-r ${item.color} mb-4`}>
+                  <div className={`text-transparent bg-clip-text bg-gradient-to-r ${item.color} mb-3 sm:mb-4`}>
                     {item.icon}
                   </div>
                   
                   {/* Title */}
-                  <h2 className="text-2xl font-bold text-gray-900 mb-3">
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 sm:mb-3">
                     {item.title}
                   </h2>
                   
                   {/* Description */}
-                  <p className="text-gray-600 mb-6 flex-grow">
+                  <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 flex-grow">
                     {item.description}
                   </p>
                   
                   {/* Button */}
-                  <div className={`inline-flex items-center px-6 py-3 bg-gradient-to-r ${item.color} text-white font-medium rounded-lg shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105`}>
+                  <div className={`inline-flex items-center px-5 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r ${item.color} text-white text-sm sm:text-base font-medium rounded-lg shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105`}>
                     <span>Open {item.title}</span>
-                    <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
                   </div>
@@ -101,37 +101,37 @@ export default function Home() {
         </div>
 
         {/* Features Section */}
-        <div className="mt-20 text-center">
-          <h3 className="text-2xl font-bold text-gray-900 mb-8">Key Features</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            <div className="p-6 bg-white rounded-xl shadow-md">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="mt-16 sm:mt-20 text-center">
+          <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6 sm:mb-8">Key Features</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto">
+            <div className="p-5 sm:p-6 bg-white rounded-xl shadow-md">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h4 className="font-semibold text-gray-900 mb-2">Real-time Data</h4>
-              <p className="text-sm text-gray-600">Access up-to-date information from Strapi CMS</p>
+              <h4 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">Real-time Data</h4>
+              <p className="text-xs sm:text-sm text-gray-600">Access up-to-date information from Strapi CMS</p>
             </div>
             
-            <div className="p-6 bg-white rounded-xl shadow-md">
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="p-5 sm:p-6 bg-white rounded-xl shadow-md">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
                 </svg>
               </div>
-              <h4 className="font-semibold text-gray-900 mb-2">Advanced Filtering</h4>
-              <p className="text-sm text-gray-600">Sort and filter data by multiple criteria</p>
+              <h4 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">Advanced Filtering</h4>
+              <p className="text-xs sm:text-sm text-gray-600">Sort and filter data by multiple criteria</p>
             </div>
             
-            <div className="p-6 bg-white rounded-xl shadow-md">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="p-5 sm:p-6 bg-white rounded-xl shadow-md sm:col-span-2 md:col-span-1">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <h4 className="font-semibold text-gray-900 mb-2">AI-Powered</h4>
-              <p className="text-sm text-gray-600">Get instant answers with our chatbot assistant</p>
+              <h4 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">AI-Powered</h4>
+              <p className="text-xs sm:text-sm text-gray-600">Get instant answers with our chatbot assistant</p>
             </div>
           </div>
         </div>

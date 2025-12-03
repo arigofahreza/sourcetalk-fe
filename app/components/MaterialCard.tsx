@@ -122,7 +122,7 @@ export default function MaterialCard({ material, onShowDetails }: MaterialCardPr
         {/* Details Button */}
         <button
           onClick={() => onShowDetails?.(material.id)}
-          className="w-full mt-3 px-4 py-2 text-sm font-medium text-white rounded-md transition-all duration-200 bg-blue-600 hover:bg-blue-700 opacity-0 group-hover:opacity-100 md:opacity-100"
+          className="w-full mt-3 px-4 py-2.5 text-sm font-medium text-white rounded-md transition-all duration-200 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 md:opacity-0 md:group-hover:opacity-100"
         >
           Show Details
         </button>

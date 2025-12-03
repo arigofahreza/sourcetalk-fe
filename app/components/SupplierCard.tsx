@@ -133,7 +133,7 @@ export default function SupplierCard({ supplier, onShowDetails }: SupplierCardPr
         {/* Details Button */}
         <button
           onClick={() => onShowDetails?.(supplier.id)}
-          className="w-full mt-auto px-4 py-2 text-sm font-medium text-white rounded-md transition-all duration-200 bg-purple-600 hover:bg-purple-700 opacity-0 group-hover:opacity-100 md:opacity-100"
+          className="w-full mt-auto px-4 py-2.5 text-sm font-medium text-white rounded-md transition-all duration-200 bg-purple-600 hover:bg-purple-700 active:bg-purple-800 md:opacity-0 md:group-hover:opacity-100"
         >
           Show Details
         </button>
