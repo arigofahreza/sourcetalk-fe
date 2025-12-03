@@ -28,7 +28,7 @@ export default function ChatContainer({ messages, isLoading }: ChatContainerProp
             <span className="text-white text-2xl">SS</span>
           </div>
           <h2 className="text-3xl font-semibold text-gray-900 mb-2">
-            Welcome to SourceStock!
+            Welcome to SourceTalk!
           </h2>
           <p className="text-xl text-gray-600 mb-8">
             I'm your catalogue assistant! Ready to help you explore and find what you're looking for.

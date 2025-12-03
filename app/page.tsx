@@ -1,293 +1,139 @@
 'use client';
 
-import { useState, useMemo, useEffect, useCallback } from 'react';
-import { Product, ViewMode, SortOption, DateRange, QuantityRange, WeightRange, FilterState, StrapiPagination } from './types/catalog';
-import { ApiService } from './services/apiService';
-import { useDebounce } from './hooks/useDebounce';
-
-import CatalogHeader from './components/CatalogHeader';
-import FilterSidebar from './components/FilterSidebar';
-import ProductGrid from './components/ProductGrid';
-import Pagination from './components/Pagination';
-import FilterIndicator from './components/FilterIndicator';
+import Link from 'next/link';
 import { Headers } from './components/Headers';
 
 export default function Home() {
-  // State management
-  const [viewMode, setViewMode] = useState<ViewMode>('grid');
-  const [sortBy, setSortBy] = useState<SortOption>('popular');
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [pagination, setPagination] = useState<StrapiPagination>({
-    page: 1,
-    pageSize: 8,
-    pageCount: 1,
-    total: 0
-  });
-  
-  const [filters, setFilters] = useState<FilterState>({
-    dateRange: { startDate: '', endDate: '' },
-    quantityRange: { min: 0, max: 200 },
-    weightRange: { min: 0, max: 2 },
-    codenames: []
-  });
-
-  // Debounce filters for API calls (2 seconds)
-  const debouncedFilters = useDebounce(filters, 2000);
-
-  // Track if filter is being debounced
-  const [isFilterUpdating, setIsFilterUpdating] = useState(false);
-
-  // Fetch data from API with filters
-  const fetchData = useCallback(async (page = 1, resetFilters = false, filterOverride?: FilterState) => {
-    setLoading(true);
-    setError(null);
-    
-    try {
-      // Map sort option to API sort parameter
-      const getSortParam = (sort: SortOption): string => {
-        switch (sort) {
-          case 'name': return 'title:asc';
-          case 'date-new': return 'createdAt:desc';
-          case 'date-old': return 'createdAt:asc';
-          case 'price-low': return 'pos:asc'; // Using pos as proxy for price
-          case 'price-high': return 'pos:desc';
-          default: return 'id:desc';
-        }
-      };
-
-      // Use provided filters or current filters
-      const activeFilters = filterOverride || filters;
-      
-      // Get selected codenames
-      const selectedCodenames = activeFilters.codenames
-        .filter(codename => codename.checked)
-        .map(codename => codename.id);
-
-      const result = await ApiService.fetchCatalogsAsProducts({
-        page,
-        pageSize: 8,
-        sort: getSortParam(sortBy),
-        // Apply filters to API call
-        dateStart: activeFilters.dateRange.startDate || undefined,
-        dateEnd: activeFilters.dateRange.endDate || undefined,
-        qtyMin: activeFilters.quantityRange.min,
-        qtyMax: activeFilters.quantityRange.max,
-        weightMin: activeFilters.weightRange.min,
-        weightMax: activeFilters.weightRange.max,
-        codenames: selectedCodenames.length > 0 ? selectedCodenames : undefined
-      });
-
-      setProducts(result.products);
-      setPagination(result.pagination);
-
-      // Initialize codenames filter from fetched data
-      if (resetFilters || filters.codenames.length === 0) {
-        const uniqueCodenames = Array.from(
-          new Set(result.products.map(p => p.codename))
-        ).map(codename => ({
-          id: codename,
-          name: codename,
-          checked: false
-        }));
-        
-        setFilters(prev => ({
-          ...prev,
-          codenames: uniqueCodenames
-        }));
-      }
-      
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch data');
-    } finally {
-      setLoading(false);
+  const menuItems = [
+    {
+      title: 'Materials',
+      description: 'Browse and manage material inventory',
+      icon: (
+        <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+        </svg>
+      ),
+      href: '/materials',
+      color: 'from-blue-500 to-blue-600',
+      bgColor: 'from-blue-50 to-indigo-50',
+      hoverColor: 'hover:from-blue-100 hover:to-indigo-100'
+    },
+    {
+      title: 'Suppliers',
+      description: 'View and manage supplier information',
+      icon: (
+        <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        </svg>
+      ),
+      href: '/suppliers',
+      color: 'from-purple-500 to-purple-600',
+      bgColor: 'from-purple-50 to-pink-50',
+      hoverColor: 'hover:from-purple-100 hover:to-pink-100'
+    },
+    {
+      title: 'AI Assistant',
+      description: 'Chat with AI to help you find information',
+      icon: (
+        <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+        </svg>
+      ),
+      href: '/chat',
+      color: 'from-green-500 to-green-600',
+      bgColor: 'from-green-50 to-emerald-50',
+      hoverColor: 'hover:from-green-100 hover:to-emerald-100'
     }
-  }, [sortBy, filters]);
-
-  // Initial data fetch
-  useEffect(() => {
-    fetchData(1, true);
-  }, []);
-
-  // Refetch when sort changes
-  useEffect(() => {
-    if (products.length > 0) {
-      fetchData(pagination.page);
-    }
-  }, [sortBy]);
-
-  // Refetch when debounced filters change (after 2 seconds)
-  useEffect(() => {
-    if (products.length > 0) {
-      setIsFilterUpdating(false);
-      fetchData(1, false, debouncedFilters);
-    }
-  }, [debouncedFilters]);
-
-  // Track when filters are being changed (before debounce)
-  useEffect(() => {
-    if (products.length > 0) {
-      setIsFilterUpdating(true);
-    }
-  }, [filters]);
-
-  // Calculate min/max values from current products
-  const { minQty, maxQty, minWeight, maxWeight } = useMemo(() => {
-    if (products.length === 0) {
-      return { minQty: 0, maxQty: 100, minWeight: 0, maxWeight: 10 };
-    }
-    
-    const quantities = products.map(p => p.qty);
-    const weights = products.map(p => p.weight);
-    return {
-      minQty: Math.min(...quantities),
-      maxQty: Math.max(...quantities),
-      minWeight: Math.min(...weights),
-      maxWeight: Math.max(...weights)
-    };
-  }, [products]);
-
-  // Since filtering is now done on the server side, we use products directly
-  const filteredProducts = products;
-
-  // Event handlers
-  const handlePageChange = (page: number) => {
-    fetchData(page);
-  };
-
-  const handleDateRangeChange = (range: DateRange) => {
-    setFilters(prev => ({
-      ...prev,
-      dateRange: range
-    }));
-  };
-
-  const handleQuantityRangeChange = (range: QuantityRange) => {
-    setFilters(prev => ({
-      ...prev,
-      quantityRange: range
-    }));
-  };
-
-  const handleWeightRangeChange = (range: WeightRange) => {
-    setFilters(prev => ({
-      ...prev,
-      weightRange: range
-    }));
-  };
-
-  const handleCodenameChange = (codenameId: string, checked: boolean) => {
-    setFilters(prev => ({
-      ...prev,
-      codenames: prev.codenames.map(codename =>
-        codename.id === codenameId ? { ...codename, checked } : codename
-      )
-    }));
-  };
-
-  const handleClearFilters = () => {
-    const defaultFilters = {
-      dateRange: { startDate: '', endDate: '' },
-      quantityRange: { min: minQty, max: maxQty },
-      weightRange: { min: minWeight, max: maxWeight },
-      codenames: filters.codenames.map(codename => ({ ...codename, checked: false }))
-    };
-    
-    setFilters(defaultFilters);
-    setIsFilterUpdating(false); // Don't show debounce indicator for clear
-    
-    // Immediately fetch with cleared filters
-    fetchData(1, false, defaultFilters);
-  };
-
-  const handleToggleLike = (productId: string) => {
-    setProducts(prev => prev.map(product =>
-      product.id === productId ? { ...product, isLiked: !product.isLiked } : product
-    ));
-  };
-
-  const handleAddToCart = (productId: string) => {
-    console.log('Add to cart:', productId);
-  };
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-red-600 text-lg font-medium mb-2">Error loading catalog</div>
-          <div className="text-gray-600 mb-4">{error}</div>
-          <button
-            onClick={() => fetchData(1, true)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-          >
-            Retry
-          </button>
-        </div>
-      </div>
-    );
-  }
+  ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Filter debounce indicator */}
-      <FilterIndicator isActive={isFilterUpdating && !loading} delay={2000} />
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      <Headers />
       
-      <div className="flex">
-        {/* Sidebar */}
-        <FilterSidebar
-          filters={filters}
-          minQty={minQty}
-          maxQty={maxQty}
-          minWeight={minWeight}
-          maxWeight={maxWeight}
-          onDateRangeChange={handleDateRangeChange}
-          onQuantityRangeChange={handleQuantityRangeChange}
-          onWeightRangeChange={handleWeightRangeChange}
-          onCodenameChange={handleCodenameChange}
-          onClearFilters={handleClearFilters}
-          itemCount={pagination.total}
-        />
-
-        {/* Main Content */}
-        <div className="w-full">
-          <div className="w-full justify-end">
-            <Headers />
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        {/* Hero Section */}
+        <div className="text-center mb-16">
+          <div className="flex justify-center mb-6">
+            <div className="w-20 h-20 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-xl">
+              <span className="text-white text-3xl font-bold">SS</span>
             </div>
-          <div className="flex-1 p-6">
-          
-          {/* Filter loading indicator */}
-          {loading && (
-            <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
-              <div className="flex items-center">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-2"></div>
-                <span className="text-sm text-blue-700">Applying filters...</span>
-              </div>
-            </div>
-          )}
-          <CatalogHeader
-            totalProducts={pagination.total}
-            viewMode={viewMode}
-            sortBy={sortBy}
-            onViewModeChange={setViewMode}
-            onSortChange={setSortBy}
-          />
-
-          <ProductGrid
-            products={filteredProducts}
-            viewMode={viewMode}
-            onToggleLike={handleToggleLike}
-            onAddToCart={handleAddToCart}
-            hasMore={false}
-            isLoading={loading}
-          />
-
-          <Pagination
-            pagination={pagination}
-            onPageChange={handlePageChange}
-            loading={loading}
-          />
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            Welcome to SourceTalk
+          </h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Your complete solution for managing materials, suppliers, and getting AI-powered assistance
+          </p>
         </div>
+
+        {/* Menu Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {menuItems.map((item) => (
+            <Link key={item.href} href={item.href}>
+              <div className={`bg-gradient-to-br ${item.bgColor} rounded-2xl p-8 border-2 border-transparent hover:border-gray-300 transition-all duration-300 ${item.hoverColor} cursor-pointer group h-full`}>
+                <div className="flex flex-col items-center text-center h-full">
+                  {/* Icon */}
+                  <div className={`text-transparent bg-clip-text bg-gradient-to-r ${item.color} mb-4`}>
+                    {item.icon}
+                  </div>
+                  
+                  {/* Title */}
+                  <h2 className="text-2xl font-bold text-gray-900 mb-3">
+                    {item.title}
+                  </h2>
+                  
+                  {/* Description */}
+                  <p className="text-gray-600 mb-6 flex-grow">
+                    {item.description}
+                  </p>
+                  
+                  {/* Button */}
+                  <div className={`inline-flex items-center px-6 py-3 bg-gradient-to-r ${item.color} text-white font-medium rounded-lg shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105`}>
+                    <span>Open {item.title}</span>
+                    <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* Features Section */}
+        <div className="mt-20 text-center">
+          <h3 className="text-2xl font-bold text-gray-900 mb-8">Key Features</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <div className="p-6 bg-white rounded-xl shadow-md">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h4 className="font-semibold text-gray-900 mb-2">Real-time Data</h4>
+              <p className="text-sm text-gray-600">Access up-to-date information from Strapi CMS</p>
+            </div>
+            
+            <div className="p-6 bg-white rounded-xl shadow-md">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                </svg>
+              </div>
+              <h4 className="font-semibold text-gray-900 mb-2">Advanced Filtering</h4>
+              <p className="text-sm text-gray-600">Sort and filter data by multiple criteria</p>
+            </div>
+            
+            <div className="p-6 bg-white rounded-xl shadow-md">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <h4 className="font-semibold text-gray-900 mb-2">AI-Powered</h4>
+              <p className="text-sm text-gray-600">Get instant answers with our chatbot assistant</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
